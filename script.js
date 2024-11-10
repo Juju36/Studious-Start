@@ -170,8 +170,9 @@ function initClient() {
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
         scope: 'https://www.googleapis.com/auth/drive.file'
     }).then(() => {
-        // Automatically prompt for sign-in on load
-        gapi.auth2.getAuthInstance().signIn();
+        console.log("Google API Client initialized successfully");
+    }).catch(error => {
+        console.error("Error initializing Google API Client:", error);
     });
 }
 
@@ -196,12 +197,12 @@ function uploadPDF() {
 
     // Ensure the user is signed in before attempting the upload
     if (gapi.auth2 && gapi.auth2.getAuthInstance().isSignedIn.get()) {
-        const accessToken = gapi.auth.getToken().access_token; // Retrieve access token
+        const accessToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token; // Retrieve access token
 
         const metadata = {
             'name': file.name, // Filename at Google Drive
             'mimeType': 'application/pdf', // MIME type
-            'parents': ['1gFrdH5gInNRitP3QrmD5nf6jJdxBIMqn'] // Replace with your Google Drive Folder ID
+            'parents': ['YOUR_FOLDER_ID'] // Replace with your Google Drive Folder ID
         };
 
         const form = new FormData();
@@ -220,34 +221,11 @@ function uploadPDF() {
                 console.error("Error uploading file:", xhr.response);
             }
         };
+        xhr.onerror = () => {
+            document.getElementById("upload-status").textContent = "Upload failed. Network error.";
+        };
         xhr.send(form);
     } else {
         alert("You need to sign in first.");
     }
-
-
-    const metadata = {
-        'name': file.name, // Filename at Google Drive
-        'mimeType': 'application/pdf', // MIME type
-        'parents': ['1gFrdH5gInNRitP3QrmD5nf6jJdxBIMqn'] // Replace with your Google Drive Folder ID
-    };
-
-    const accessToken = gapi.auth.getToken().access_token; // Retrieve access token
-    const form = new FormData();
-    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
-    form.append('file', file);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-        if (xhr.status === 200) {
-            document.getElementById("upload-status").textContent = "File uploaded successfully! File ID: " + xhr.response.id;
-        } else {
-            document.getElementById("upload-status").textContent = "Upload failed. Please try again.";
-            console.error("Error uploading file:", xhr.response);
-        }
-    };
-    xhr.send(form);
 }
