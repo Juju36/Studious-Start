@@ -159,11 +159,7 @@ function searchLinkedIn() {
 }
 
 function loadGapiClient() {
-    if (typeof gapi !== 'undefined') {
-        gapi.load('client:auth2', initClient);
-    } else {
-        console.error("Google API client library is not loaded.");
-    }
+    gapi.load('client:auth2', initClient);
 }
 
 function initClient() {
@@ -204,14 +200,12 @@ function toggleSignIn() {
     const authInstance = gapi.auth2.getAuthInstance();
 
     if (authInstance.isSignedIn.get()) {
-        // If the user is signed in, sign them out
         authInstance.signOut().then(() => {
             console.log("User signed out");
         }).catch(error => {
             console.error("Error during sign-out:", error);
         });
     } else {
-        // If the user is not signed in, prompt them to sign in
         authInstance.signIn().then(() => {
             console.log("User signed in");
         }).catch(error => {
@@ -230,19 +224,18 @@ function uploadPDF() {
         return;
     }
 
-    // Ensure the user is signed in before attempting the upload
     const authInstance = gapi.auth2.getAuthInstance();
     if (authInstance && authInstance.isSignedIn.get()) {
-        const accessToken = authInstance.currentUser.get().getAuthResponse().access_token; // Retrieve access token
+        const accessToken = authInstance.currentUser.get().getAuthResponse().access_token;
 
         const metadata = {
-            'name': file.name, // Filename at Google Drive
-            'mimeType': 'application/pdf', // MIME type
+            'name': file.name,
+            'mimeType': 'application/pdf',
             'parents': ['YOUR_FOLDER_ID'] // Replace with your Google Drive Folder ID
         };
 
         const form = new FormData();
-        form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
         form.append('file', file);
 
         const xhr = new XMLHttpRequest();

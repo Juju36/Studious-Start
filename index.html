@@ -2,12 +2,13 @@
 
 <html lang="en">
 <head>
-    <script src="https://apis.google.com/js/api.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studious Start App</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+
+    <!-- Load Google API Client Library for OAuth -->
+    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body onload="loadGapiClient()">
 <div class="main-container">
@@ -73,10 +74,14 @@
         </div>
     </div>
 
+    <!-- Syllabus Simplifier Section with OAuth Sign-In Button -->
     <div class="section" id="syllabus-simplifier-section">
         <h2>Syllabus Simplifier</h2>
         <p>Upload your syllabus PDF to Google Drive:</p>
+
+        <!-- Sign-In Button for OAuth -->
         <button id="sign-in-button" onclick="toggleSignIn()">Sign In with Google</button>
+
         <input type="file" id="pdf-upload" accept="application/pdf" />
         <button onclick="uploadPDF()">Upload PDF</button>
         <p id="upload-status"></p>
