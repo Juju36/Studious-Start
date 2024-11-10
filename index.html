@@ -5,7 +5,7 @@
     <script src="https://apis.google.com/js/api.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>University Preparation App</title>
+    <title>Studious Start App</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
@@ -76,7 +76,7 @@
     <div class="section" id="syllabus-simplifier-section">
         <h2>Syllabus Simplifier</h2>
         <p>Upload your syllabus PDF to Google Drive:</p>
-        <button onclick="signInWithGoogle()">Sign In with Google</button> <!-- New Sign-In Button -->
+        <button id="sign-in-button" onclick="toggleSignIn()">Sign In with Google</button>
         <input type="file" id="pdf-upload" accept="application/pdf" />
         <button onclick="uploadPDF()">Upload PDF</button>
         <p id="upload-status"></p>

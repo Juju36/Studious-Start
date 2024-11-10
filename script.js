@@ -158,9 +158,12 @@ function searchLinkedIn() {
     }
 }
 
-// Load Google API Client Library on Page Load
 function loadGapiClient() {
-    gapi.load('client:auth2', initClient);
+    if (typeof gapi !== 'undefined') {
+        gapi.load('client:auth2', initClient);
+    } else {
+        console.error("Google API client library is not loaded.");
+    }
 }
 
 function initClient() {
@@ -170,19 +173,51 @@ function initClient() {
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
         scope: 'https://www.googleapis.com/auth/drive.file'
     }).then(() => {
-        console.log("Google API Client initialized successfully");
+        const authInstance = gapi.auth2.getAuthInstance();
+
+        // Update UI based on initial sign-in state
+        updateSignInStatus(authInstance.isSignedIn.get());
+
+        // Listen for changes in the sign-in state
+        authInstance.isSignedIn.listen(updateSignInStatus);
     }).catch(error => {
         console.error("Error initializing Google API Client:", error);
     });
 }
 
-function signInWithGoogle() {
-    gapi.auth2.getAuthInstance().signIn().then(() => {
-        console.log("User signed in");
-        document.getElementById("upload-status").textContent = "Signed in successfully!";
-    }).catch(error => {
-        console.error("Error during sign-in:", error);
-    });
+// Function to update the sign-in status UI
+function updateSignInStatus(isSignedIn) {
+    const signInButton = document.getElementById("sign-in-button");
+    const uploadStatus = document.getElementById("upload-status");
+
+    if (isSignedIn) {
+        signInButton.textContent = "Sign Out";
+        uploadStatus.textContent = "Signed in successfully!";
+    } else {
+        signInButton.textContent = "Sign In with Google";
+        uploadStatus.textContent = "You are signed out. Please sign in to upload.";
+    }
+}
+
+// Function to handle sign-in or sign-out based on current status
+function toggleSignIn() {
+    const authInstance = gapi.auth2.getAuthInstance();
+
+    if (authInstance.isSignedIn.get()) {
+        // If the user is signed in, sign them out
+        authInstance.signOut().then(() => {
+            console.log("User signed out");
+        }).catch(error => {
+            console.error("Error during sign-out:", error);
+        });
+    } else {
+        // If the user is not signed in, prompt them to sign in
+        authInstance.signIn().then(() => {
+            console.log("User signed in");
+        }).catch(error => {
+            console.error("Error during sign-in:", error);
+        });
+    }
 }
 
 // Function to upload a PDF file to Google Drive
@@ -196,8 +231,9 @@ function uploadPDF() {
     }
 
     // Ensure the user is signed in before attempting the upload
-    if (gapi.auth2 && gapi.auth2.getAuthInstance().isSignedIn.get()) {
-        const accessToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token; // Retrieve access token
+    const authInstance = gapi.auth2.getAuthInstance();
+    if (authInstance && authInstance.isSignedIn.get()) {
+        const accessToken = authInstance.currentUser.get().getAuthResponse().access_token; // Retrieve access token
 
         const metadata = {
             'name': file.name, // Filename at Google Drive
