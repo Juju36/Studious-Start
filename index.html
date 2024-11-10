@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Preparation App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body onload="loadGapiClient()">
+<div class="main-container">
+    <!-- RateMyProf Section -->
+    <div class="section" id="ratemyprof-section">
+        <h2>Find your profs ratings</h2>
+        <p>Select a professor to view their RateMyProf profile:</p>
+        <div id="prof-list">
+            <!-- JavaScript will populate this with professor links -->
+        </div>
+    </div>
+
+    <!-- Task List Section -->
+    <div class="section" id="task-section">
+        <h2>Task List</h2>
+        <div class="task-input">
+            <input type="text" id="task-input" placeholder="Add a new task" />
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        <ul id="task-list">
+            <!-- Tasks will be displayed here -->
+        </ul>
+    </div>
+
+    <!-- Class Compass Section -->
+    <div class="section" id="class-compass-section">
+        <h2>Class Compass</h2>
+        <p>Find directions to buildings from your location:</p>
+        <div id="building-list">
+            <!-- JavaScript will populate this with building links -->
+        </div>
+    </div>
+
+    <!-- Campus Crush Section -->
+    <div class="section" id="campus-crush-section">
+        <h2>Campus Crush</h2>
+        <p>To write details about your campus crush!</p>
+        <div class="crush-input">
+            <input type="text" id="crush-input" placeholder="Add a detail" />
+            <button onclick="addCrushDetail()">Add Detail</button>
+        </div>
+        <ul id="crush-list">
+            <!-- Crush details will be displayed here -->
+        </ul>
+    </div>
+
+    <!-- Video Vault Section -->
+    <div class="section" id="video-vault-section">
+        <h2>Video Vault</h2>
+        <p>Additional websites and YouTubers for university help:</p>
+        <div id="video-list">
+            <!-- JavaScript will populate this with video resource links -->
+        </div>
+    </div>
+
+    <!-- Network Nexus Section -->
+    <div class="section" id="network-nexus-section">
+        <h2>Network Nexus</h2>
+        <p>Search LinkedIn to expand your network:</p>
+        <div class="network-input">
+            <input type="text" id="network-search" placeholder="Enter search term" />
+            <button onclick="searchLinkedIn()">Search</button>
+        </div>
+    </div>
+
+    <div class="section" id="syllabus-simplifier-section">
+        <h2>Syllabus Simplifier</h2>
+        <p>Upload your syllabus PDF to Google Drive:</p>
+        <button onclick="signInWithGoogle()">Sign In with Google</button> <!-- New Sign-In Button -->
+        <input type="file" id="pdf-upload" accept="application/pdf" />
+        <button onclick="uploadPDF()">Upload PDF</button>
+        <p id="upload-status"></p>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

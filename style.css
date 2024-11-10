@@ -1,0 +1,72 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+/* Main Container for Side-by-Side Layout */
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Section Styling */
+.section {
+    flex: 1;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Professor, Building, Crush, Video, and Network Input Styling */
+#prof-list, #building-list, #crush-list, #video-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Button Styling */
+.prof-button, .task-button, .building-button, .crush-button, .video-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.prof-button:hover, .task-button:hover, .building-button:hover, .crush-button:hover, .video-button:hover {
+    background-color: #0056b3;
+}
+
+/* Task, Crush, and Network Input Styling */
+.task-input, .crush-input, .network-input {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.task-input input, .crush-input input, .network-input input {
+    padding: 10px;
+    font-size: 1em;
+    width: 60%;
+}
