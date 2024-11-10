@@ -169,13 +169,11 @@ function initClient() {
         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
         scope: 'https://www.googleapis.com/auth/drive.file'
     }).then(() => {
-        const authInstance = gapi.auth2.getAuthInstance();
-
         // Update UI based on initial sign-in state
-        updateSignInStatus(authInstance.isSignedIn.get());
+        updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
 
         // Listen for changes in the sign-in state
-        authInstance.isSignedIn.listen(updateSignInStatus);
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
     }).catch(error => {
         console.error("Error initializing Google API Client:", error);
     });
