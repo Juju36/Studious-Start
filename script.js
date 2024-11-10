@@ -170,6 +170,6 @@ function openGoogleForm() {
 }
 
 function openGoogleSheet() {
-    const sheetLink = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"; // Replace with your Google Sheets link
+    const sheetLink = "https://docs.google.com/spreadsheets/d/1ugGNOHvYQFjyr97MCgLH1kgZdC7DIAuKgihZwj5MM0I/edit?usp=sharing"; // Replace with your Google Sheets link
     window.open(sheetLink, "_blank"); // Open the sheet in a new tab
 }
