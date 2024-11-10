@@ -158,101 +158,18 @@ function searchLinkedIn() {
     }
 }
 
-function loadGapiClient() {
-    gapi.load('client:auth2', initClient);
+function openGoogleForm() {
+    const formLink = "https://docs.google.com/forms/d/e/1FAIpQLSeB4gvdR_aWYKmGm-08DIP1ARIN6aEOWk-H8YdFVjHIqeBEIg/viewform?usp=sf_link"; // Replace with your actual Google Form link
+    window.open(formLink, "_blank"); // Open the form in a new tab
+
 }
 
-function initClient() {
-    gapi.client.init({
-        apiKey: 'AIzaSyDwiG_Tf_PMEDFNzzsRtFAhL9GLk0HnDgg', // Replace with your API key
-        clientId: '294271858250-43gfc0joncdp7uciose4qcd93iovq8ph.apps.googleusercontent.com', // Replace with your Client ID
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-        scope: 'https://www.googleapis.com/auth/drive.file'
-    }).then(() => {
-        // Update UI based on initial sign-in state
-        updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-
-        // Listen for changes in the sign-in state
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
-    }).catch(error => {
-        console.error("Error initializing Google API Client:", error);
-    });
+function openGoogleForm() {
+    const formLink = "https://docs.google.com/forms/d/e/1FAIpQLSeB4gvdR_aWYKmGm-08DIP1ARIN6aEOWk-H8YdFVjHIqeBEIg/viewform?usp=sf_link"; // Replace with your actual Google Form link
+    window.open(formLink, "_blank"); // Open the form in a new tab
 }
 
-// Function to update the sign-in status UI
-function updateSignInStatus(isSignedIn) {
-    const signInButton = document.getElementById("sign-in-button");
-    const uploadStatus = document.getElementById("upload-status");
-
-    if (isSignedIn) {
-        signInButton.textContent = "Sign Out";
-        uploadStatus.textContent = "Signed in successfully!";
-    } else {
-        signInButton.textContent = "Sign In with Google";
-        uploadStatus.textContent = "You are signed out. Please sign in to upload.";
-    }
-}
-
-// Function to handle sign-in or sign-out based on current status
-function toggleSignIn() {
-    const authInstance = gapi.auth2.getAuthInstance();
-
-    if (authInstance.isSignedIn.get()) {
-        authInstance.signOut().then(() => {
-            console.log("User signed out");
-        }).catch(error => {
-            console.error("Error during sign-out:", error);
-        });
-    } else {
-        authInstance.signIn().then(() => {
-            console.log("User signed in");
-        }).catch(error => {
-            console.error("Error during sign-in:", error);
-        });
-    }
-}
-
-// Function to upload a PDF file to Google Drive
-function uploadPDF() {
-    const fileInput = document.getElementById("pdf-upload");
-    const file = fileInput.files[0]; // Get the first selected file
-
-    if (!file) {
-        alert("Please select a PDF file to upload.");
-        return;
-    }
-
-    const authInstance = gapi.auth2.getAuthInstance();
-    if (authInstance && authInstance.isSignedIn.get()) {
-        const accessToken = authInstance.currentUser.get().getAuthResponse().access_token;
-
-        const metadata = {
-            'name': file.name,
-            'mimeType': 'application/pdf',
-            'parents': ['YOUR_FOLDER_ID'] // Replace with your Google Drive Folder ID
-        };
-
-        const form = new FormData();
-        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-        form.append('file', file);
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id');
-        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-        xhr.responseType = 'json';
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                document.getElementById("upload-status").textContent = "File uploaded successfully! File ID: " + xhr.response.id;
-            } else {
-                document.getElementById("upload-status").textContent = "Upload failed. Please try again.";
-                console.error("Error uploading file:", xhr.response);
-            }
-        };
-        xhr.onerror = () => {
-            document.getElementById("upload-status").textContent = "Upload failed. Network error.";
-        };
-        xhr.send(form);
-    } else {
-        alert("You need to sign in first.");
-    }
+function openGoogleSheet() {
+    const sheetLink = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"; // Replace with your Google Sheets link
+    window.open(sheetLink, "_blank"); // Open the sheet in a new tab
 }
